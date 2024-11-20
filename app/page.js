@@ -1,11 +1,12 @@
 "use client"
-import {Box, Modal, Typography, Stack, TextField, Button} from '@mui/material';
-import styles from './page.module.css';
-import { useEffect, useState, useRef } from "react";
-
+//import {Box, Modal, Typography, Stack, TextField, Button} from '@mui/material';
+//import styles from './page.module.css';
+//import { useEffect, useState, useRef } from "react";
+import Link from 'next/link';
 
 export default function Home() {
-  const [messages, setMessages] = useState([]);
+  // START OLD??
+  /*const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const chatContainerRef = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -73,16 +74,25 @@ export default function Home() {
   // const handleSignIn = () => {
   //   signIn("google", { callbackUrl: "/dashboard" });
   // };
+  */
 
- 
-     
+  const test = () => {
+    console.log("test done");
+  }
+
   return (
     <>
-    <main className={styles.main}>
-      <Typography sx={{fontSize: '50px'}}>
-        wassup mag!!
-      </Typography>
+    <main>
+
+      <h1>Hello Dummy</h1>
+      <Link href="/rooms">Rooms</Link>
+      <Link href="/arena">Arena</Link>
+
+      <button onClick={test}>Add to DB</button>
+
     </main>
     </>
   );
+
+
 }
