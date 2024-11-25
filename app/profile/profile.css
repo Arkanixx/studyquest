@@ -1,0 +1,620 @@
+/* Reset some styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  background-image: url('rpg-background.gif'); /* Your GIF file */
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover; /* Ensures the GIF covers the entire background */
+  height: 100vh;
+  overflow: auto;
+}
+
+.profile-container {
+  position: relative;
+  z-index: 2;
+  margin-top: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Name Section Styles */
+.profile-header {
+  text-align: center;
+  color: white;
+  padding: 40px 0;
+  background: rgba(0, 0, 0, 0.6); /* Optional: adds a dark overlay for better text visibility */
+  border-radius: 8px;
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name-display {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.profile-header h1 {
+  font-size: 3em;
+  margin-right: 10px; /* Space between the name and the pencil icon */
+}
+
+.edit-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-image: url('name-change.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  margin-left: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.edit-icon:hover {
+  opacity: 0.7;
+}
+
+.save-icon {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  background-image: url('save-icon.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  margin-left: 10px;
+  transition: opacity 0.3s ease;
+}
+
+.save-icon:hover {
+  opacity: 0.7;
+}
+
+.name-input {
+  font-size: 1.5em;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.char-count {
+  font-size: 0.9em;
+  color: #888;
+  margin-top: 5px;
+}
+
+/* RPG-style XP Level Bar Styles */
+.xp-bar-container {
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(45deg, #2a2a2a, #4f4f4f); /* Dark metallic gradient background */
+  border-radius: 20px;
+  margin-top: 10px;
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(255, 255, 255, 0.1);
+  border: 3px solid #333; /* Thick border for an epic feel */
+  overflow: hidden;
+}
+
+.xp-fill {
+  height: 100%;
+  width: 0%; /* Initial fill (will be dynamically updated) */
+  background: linear-gradient(90deg, #007bff, #00aaff); /* Blue gradient for the XP fill */
+  border-radius: 20px 0 0 20px; /* Rounded corners for the filled part */
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6); /* Glow effect inside the bar */
+  transition: width 0.4s ease;
+}
+
+/* Text Styling for RPG Aesthetic */
+.xp-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #00bfff; /* Light blue color for text */
+  font-size: 16px;
+  font-family: 'Cinzel', serif; /* Elegant serif font with a medieval style */
+  font-weight: bold;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 191, 255, 0.8); /* Glowing blue text */
+  z-index: 1; /* Ensure the text is above the XP fill */
+}
+
+/* XP Level */
+.xp-level {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00bfff; /* Light blue color for XP level */
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 191, 255, 0.8); /* Glowing text effect */
+}
+
+/* XP Progress */
+.xp-progress {
+  font-size: 14px;
+  color: #f1f1f1;
+  font-family: 'Cinzel', serif;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6); /* Subtle shadow for a softer glow */
+}
+
+#user-level {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+}
+
+#xp-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+#xp-fill {
+  height: 100%;
+  background-color: #4caf50; /* Green color for XP progress */
+  border-radius: 5px;
+  width: 0%;  /* Starts at 0%, updates based on XP */
+}
+
+/* Avatar Customization Panel Styles */
+.avatar-customization-container {
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center; /* Centers the content horizontally */
+  align-items: center;     /* Centers the content vertically */
+  flex-direction: column;  /* Stacks the content vertically */
+}
+
+.avatar-customization-panel {
+  text-align: center;
+  color: white;
+}
+
+.avatar-customization-panel h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+/* Default Avatar Preview */
+.avatar-preview {
+  margin-top: 20px;
+  width: 200px;  /* Ensure width is set */
+  height: 200px; /* Ensure height is set */
+  background-image: url('/profile-1.png'); /* Default avatar image */
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin: 0 auto; /* Center the avatar horizontally */
+}
+
+/* Avatar Options: Defining background images for outfits */
+.avatar-outfit-1 {
+  background-image: url('profile-1.png');
+}
+
+.avatar-outfit-2 {
+  background-image: url('profile-2.png');
+}
+
+.avatar-outfit-3 {
+  background-image: url('profile-3.png');
+}
+
+/* Styling for Avatar buttons */
+.avatar-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+  justify-items: center; /* Centers the buttons horizontally */
+}
+
+.avatar-options button {
+  background-color: #333;
+  border: 2px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.avatar-options button:hover {
+  background-color: #444;
+}
+
+.customization-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.customization-footer button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.customization-footer button:hover {
+  background-color: #0056b3;
+}
+
+/* Tab Navigation Styles */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Tab Content Transitions */
+.tab-content {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.tab-content.fade-in {
+  opacity: 1;
+}
+
+.tab-content.fade-out {
+  opacity: 0;
+}
+
+/* Profile Section */
+.profile-header {
+  text-align: center;
+  color: white;
+  padding: 40px 0;
+  background: rgba(0, 0, 0, 0.6); /* Optional: adds a dark overlay for better text visibility */
+  border-radius: 8px;
+}
+.tabs button {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  border-radius: 8px;
+  margin: 0 10px;
+  transition: background-color 0.3s;
+}
+
+.tabs button:hover {
+  background-color: #444;
+}
+
+.tabs button.active {
+  background-color: #007bff;
+}
+
+/* Completed Achievement Color */
+.achievement-item.completed {
+  background-color: rgba(34, 139, 34, 0.8); /* Emerald Green for completed achievements */
+  color: white; /* White text for better contrast and readability */
+}
+
+/* Trophy Icon for Completed Achievements */
+.achievement-item.completed .achievement-icon {
+  content: url('completed.png'); /* Your completed icon */
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px; /* Slightly larger icon */
+  height: 20px; /* Slightly larger icon */
+  color: #ffffff; /* White color for the trophy icon */
+  z-index: 2; /* Ensure the icon stays on top */
+}
+
+/* Achievement Item Hover */
+.achievement-item:hover {
+  transform: scale(1.05);
+  background-color: rgba(0, 102, 255, 0.6); /* Blue hover effect */
+}
+
+/* Achievements Section Styles */
+.achievements-container {
+  text-align: center;
+}
+
+.achievements-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.achievement-item {
+  background-color: rgba(0, 0, 0, 0.7); /* Default background for incomplete achievements */
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  position: relative;
+}
+
+.achievement-item .achievement-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+/* Achievement Title and Description */
+.achievement-info h3 {
+  font-size: 1.2em;
+  margin-bottom: 5px;
+}
+
+.achievement-info p {
+  font-size: 1em;
+  color: #ccc;
+}
+
+
+/* Notification Styles */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.notification {
+  position: relative; /* Allow positioning of elements inside the notification */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+  width: 300px;
+  height: 80px;
+  padding: 0;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  background-image: url('scroll.png'); /* Set background image */
+  background-size: cover;
+  background-position: center;
+  animation: slideInRight 0.5s ease-in-out, fadeOutRight 3s 2s forwards; /* Animation */
+}
+
+@media (max-width: 768px) {
+  .achievements-list {
+    grid-template-columns: 1fr; /* Stack achievements in a single column on small screens */
+  }
+}
+
+.notification-message {
+  position: absolute; /* Absolute positioning to place text on top of image */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Offset to truly center it */
+  font-size: 18px; /* Slightly larger text */
+  font-weight: bold;
+  color: black; /* Set text color to black */
+  font-family: 'Cinzel', serif; /* A medieval-style font for RPG aesthetic */
+  z-index: 2; /* Ensure text appears above the image */
+  text-align: center; /* Center the text */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 215, 0, 0.8); /* Glowing effect with shadow */
+}
+
+/* Slide-in and fade-out animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOutRight {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* Icon styling for RPG aesthetic */
+.notification .fa-trophy {
+  color: gold;
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.notification .fa-check-circle {
+  color: #76c7c0;
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+/* Styles for Skills Tab and Content */
+.skills-container {
+  text-align: center;
+  color: white;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+}
+
+.skills-container h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.skills-container p {
+  font-size: 1.2em;
+  color: #bbb;
+}
+
+/* Dark RPG Aesthetic with Transparent Background for the Search Bar */
+.skill-input {
+  padding: 12px 20px; /* Comfortable padding for the input */
+  width: 70%;
+  margin-right: 10px;
+  border-radius: 10px; /* Rounded edges for a smooth, magical look */
+  border: 2px solid rgba(0, 128, 128, 0.7); /* Semi-transparent teal border */
+  color: #F0F8FF; /* Light frosty blue text color to stand out against the dark background */
+  background-color: rgba(0, 0, 0, 0.6); /* Dark transparent background similar to the panel */
+  font-size: 1.1em;
+  font-family: 'Garamond', serif; /* A medieval or classic font style */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); /* Soft shadow to enhance text legibility */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+/* Glowing Effect on Hover */
+.skill-input:hover {
+  border-color: #228B22; /* Forest green border on hover to match the panel */
+  box-shadow: 0 0 15px rgba(34, 139, 34, 0.8); /* Green glow effect on hover */
+  background-color: rgba(0, 0, 0, 0.7); /* Slightly lighter transparent background on hover */
+}
+
+/* Glowing Effect on Focus (When selected) */
+.skill-input:focus {
+  outline: none;
+  border-color: #228B22; /* Forest green glowing border on focus */
+  box-shadow: 0 0 20px rgba(34, 139, 34, 1); /* Stronger green glow when focused */
+  background-color: rgba(0, 0, 0, 0.8); /* Darker transparent background on focus */
+  color: #F0F8FF; /* Frosty light blue text */
+}
+
+/* Add Skill Button Styling */
+.add-skill-button {
+  padding: 12px 25px; /* Adds more padding for a larger button */
+  background: linear-gradient(145deg, #1e6f56, #1e7a5a); /* Blue-green gradient for a mystical RPG aesthetic */
+  color: #fff; /* White text for contrast */
+  font-size: 1.1em; /* Larger text for emphasis */
+  font-family: 'Garamond', serif; /* Medieval font for an RPG touch */
+  border: 2px solid #004d3d; /* Dark blue-green border to match the button */
+  border-radius: 30px; /* Round edges for smooth and polished look */
+  cursor: pointer; /* Changes to a pointer when hovered over */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transitions for hover and active states */
+}
+
+/* Add Skill Button Hover Effects */
+.add-skill-button:hover {
+  background: linear-gradient(145deg, #1e7a5a, #1e6f56); /* Swap gradient on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Stronger shadow on hover */
+  border-color: #00694d; /* Lighter blue-green border on hover */
+}
+
+/* Add Skill Button Focus Effects */
+.add-skill-button:focus {
+  outline: none; /* Remove default focus outline */
+  box-shadow: 0 0 8px 4px rgba(0, 128, 128, 0.8); /* Blue-green glow when focused */
+  transform: scale(1.05); /* Keep enlarged effect on focus */
+}
+
+/* Disabled Add Skill Button */
+.add-skill-button:disabled {
+  background: #4b6666; /* Darker gray-green background when disabled */
+  border-color: #3a5a58; /* Darker border when disabled */
+  cursor: not-allowed; /* Indicate that it's not clickable */
+  box-shadow: none; /* Remove the shadow when disabled */
+}
+
+/* Skills List Container */
+.skills-list {
+  display: flex; /* Using flexbox to allow wrapping */
+  flex-wrap: wrap; /* Allows bubbles to wrap when the screen size is small */
+  gap: 15px; /* Spacing between bubbles */
+  margin-top: 20px; /* Add space above the skills list */
+}
+
+/* Skill Item */
+.skill-item {
+  background-color: #4caf50; /* Fresh green background color */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding for a clean bubble shape */
+  border-radius: 30px; /* Rounded edges for a clean bubble shape */
+  font-size: 1.2em; /* Larger font size for the skill name */
+  font-family: 'Garamond', serif; /* RPG-style font */
+  display: flex; /* Flexbox for text and remove button alignment */
+  align-items: center; /* Vertically align content */
+  justify-content: space-between; /* Space between the skill name and remove button */
+  width: auto;
+  min-width: 120px; /* Ensures the bubble has a minimum width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: all 0.3s ease; /* Smooth transition on hover/focus */
+}
+
+/* Skill Name */
+.skill-name {
+  font-size: 1.4em; /* Larger font size for the skill name */
+  margin-right: 10px; /* Space between the skill name and the remove button */
+  flex-grow: 1; /* Ensures the skill name takes up most of the space */
+}
+
+/* Remove button as a simple 'X' */
+.remove-skill-button {
+  background: none; /* No background */
+  color: white; /* White color for the 'X' */
+  border: none; /* Remove border */
+  font-size: 1.2em; /* Smaller 'X' for the remove button */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: transform 0.2s ease; /* Smooth transition for the button */
+  padding: 0; /* Remove padding for the 'X' button */
+  line-height: 1; /* Ensures the 'X' is centered */
+  text-align: center; /* Centers the 'X' */
+}
+
+/* Hover effect on remove button */
+.remove-skill-button:hover {
+  transform: scale(1.2); /* Slightly enlarge the 'X' on hover */
+}
+
+/* Skill Item Hover Effects */
+.skill-item:hover {
+  background-color: #3e8e41; /* Darken the background slightly when hovering */
+  transform: scale(1.05); /* Slightly enlarge the skill bubble */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+/* Skill Item Focus Effect */
+.skill-item:focus-within {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 8px 4px rgba(34, 139, 34, 0.8); /* Green glow when focused */
+}
+
+/* Skills List Container */
+.skills-list {
+  display: flex; /* Using flexbox to allow wrapping */
+  flex-wrap: wrap; /* Allows bubbles to wrap when the screen size is small */
+  gap: 15px; /* Spacing between bubbles */
+  margin-top: 20px; /* Add space above the skills list */
+}
+
+/* Styling the "No skills" message */
+.no-skills-message {
+  font-size: 1.2em;
+  color: #888; /* Lighter text color */
+  margin-top: 20px; /* Add space above the message */
+}
+
