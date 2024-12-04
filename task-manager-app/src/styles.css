@@ -1,36 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+
+/* Body Styling */
 body {
     background-image: url('./Assets/rpg-background.gif');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    font-family: Arial, sans-serif;
+    font-family: "Orbitron", sans-serif;
+    color: white;
     margin: 0;
     padding: 0;
-    height: 100vh; /* Ensures the body covers the full height of the viewport */
-    overflow: hidden; /* Prevents scrolling due to potential extra content */
-    display: flex; /* Flexbox for centering content */
-    justify-content: center; /* Horizontally centers content */
-    align-items: center; /* Vertically centers content */
-    text-align: center; /* Centers text */
+    height: 100vh; /* Full viewport height */
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-attachment: fixed;
+    position: relative;
 }
 
-.container {
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black box */
-    padding: 20px; /* Adds space inside the box */
-    border-radius: 10px; /* Smooth rounded corners */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Optional shadow for depth */
-    width: 80%; /* Adjust width as needed */
-    max-width: 800px; /* Limit maximum width */
-    color: white; /* Ensures text is readable on a dark background */
-    text-align: center; /* Centers text within the box */
+/* Add the black overlay */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Black with 50% opacity */
+    z-index: -1; /* Ensure the overlay stays behind the content */
+  }
+
+/* Background Blur for Modal Overlay */
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.7); /* Dark transparent overlay */
+    backdrop-filter: blur(8px); /* Blur effect for better readability */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Stays on top of the background */
 }
 
-/* Optional button styling for consistency */
+/* Modal Container */
+.modal {
+    background: rgba(30, 33, 57, 0.9); /* Semi-transparent modal background */
+    color: #ffffff;
+    border: 2px solid #2e344e;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(255, 111, 97, 0.7); /* Adds glowing effect */
+    padding: 24px;
+    width: 80%; /* Adjust size for responsiveness */
+    max-width: 600px;
+    z-index: 20; /* Stays above the overlay */
+    position: relative;
+}
+
+/* General styles */
+.input-field {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Button styles */
+.btn-cancel {
+  background-color: #f44336;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.btn-cancel:hover {
+  background-color: #d32f2f;
+}
+
+.btn-save {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.btn-save:hover {
+  background-color: #388e3c;
+}
+.btn-save.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+textarea.input-field {
+    height: 120px; /* Adjusted height for descriptions */
+    resize: none; /* Prevent resizing */
+}
+
+/* Hover and Focus Effects for Inputs */
+.input-field:hover {
+    border-color: #3a3f5c; /* Brighter border on hover */
+}
+
+
+  /* Button Styles */
 button {
+    background: rgba(0, 0, 0, 0.7); /* Dark transparent background for buttons */
+    color: #fff; /* White text for contrast */
+    border: 2px solid rgba(0, 122, 255, 0.7); /* Blue border with slight transparency */
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: 'Press Start 2P', cursive; /* Pixel font */
+    font-size: 1rem;
+    text-align: center;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 0 10px rgba(0, 122, 255, 0.6); /* Blue glow */
+  }
+ 
+  /* Button Hover Effects */
+button:hover {
+    background: rgba(0, 122, 255, 0.8); /* Slightly lighter blue background on hover */
+    transform: scale(1.05); /* Slight scaling effect */
+    box-shadow: 0 0 20px rgba(0, 122, 255, 1); /* Intensified blue glow on hover */
+  }
+  
+  /* Specific Button Styles for Different Actions */
+.bg-green-500 {
+    background: rgba(0, 255, 0, 0.7); /* Green background for Add Task button */
+    border: 2px solid rgba(0, 255, 0, 0.7); /* Green border */
+  }
+
+  .bg-green-500:hover {
+    background: rgba(0, 255, 0, 1); /* Brighter green on hover */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 1); /* Green glow on hover */
+  }
+  
+  .bg-yellow-500 {
+    background: rgba(255, 255, 0, 0.7); /* Yellow background for Edit button */
+    border: 2px solid rgba(255, 255, 0, 0.7); /* Yellow border */
+  }
+  
+  .bg-yellow-500:hover {
+    background: rgba(255, 255, 0, 1); /* Brighter yellow on hover */
+    box-shadow: 0 0 20px rgba(255, 255, 0, 1); /* Yellow glow on hover */
+  }
+
+  .bg-blue-500 {
+    background-color: #4299e1;
+  }
+  
+  .bg-red-500 {
+    background: rgba(255, 0, 0, 0.7); /* Red background for Delete button */
+    border: 2px solid rgba(255, 0, 0, 0.7); /* Red border */
+  }
+  
+  .bg-red-500:hover {
+    background: rgba(255, 0, 0, 1); /* Brighter red on hover */
+    box-shadow: 0 0 20px rgba(255, 0, 0, 1); /* Red glow on hover */
+  }
+  
+
+/* Text Glow Effect */
+.text-glow {
+    color: #ffffff;
+    text-shadow: 0 0 10px #61dafb, 0 0 20px #61dafb, 0 0 30px #61dafb; /* Glowing text */
 }
 
-button:hover {
-    transform: scale(1.05);
+/* Priority Selector with Color Coding */
+.priority-high {
+    color: #ff4c4c; /* Red for High */
+    font-weight: bold;
 }
+
+.priority-medium {
+    color: #f1c40f; /* Yellow for Medium */
+    font-weight: bold;
+}
+
+.priority-low {
+    color: #2ecc71; /* Green for Low */
+    font-weight: bold;
+}
+
+/* Add Icons */
+.icon {
+    margin-right: 8px; /* Adds space between icon and text */
+}
+
+/* Task List (Flexbox with wrapping) */
+.task-manager-container {
+    padding: 40px;
+    min-height: 100vh;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column; /* Keep the title and button stacked vertically */
+    align-items: center;
+    z-index: 2;
+}
+
+/* Task Cards Container */
+.task-list {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping to the next line when needed */
+    gap: 20px; /* Space between cards */
+    justify-content: center; /* Center the task cards */
+    width: 100%; /* Ensure it takes the full width */
+}
+
+  /* Title styling */
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #f8f8f8;
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  }
+
+/* Task Card Styles */
+.task-card {
+    width: 280px; /* Fixed width for the task card */
+    background: rgba(0, 0, 0, 0.6); /* Transparent black background for a more gaming vibe */
+    color: #fff; /* White text for contrast */
+    border: 3px solid rgba(0, 122, 255, 0.7); /* Blue border with a slight transparency */
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: auto; /* Ensure height adjusts based on content */
+    display: flex;
+    flex-direction: column; /* Ensure text content is stacked vertically */
+    font-family: 'Press Start 2P', cursive; /* Pixel font */
+    box-shadow: 0 0 10px rgba(0, 122, 255, 0.6); /* Blue glow around the card */
+    overflow: hidden; /* Prevents content spilling out */
+  }
+
+/* Hover effect for task cards */
+.task-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 122, 255, 1); /* Intensified blue glow on hover */
+  }
+
+  /* Task Title */
+.task-title {
+    font-size: 1.2rem;
+    color: #00aaff; /* Light blue color */
+    text-shadow: 0 0 5px rgba(0, 122, 255, 0.8); /* Glow effect for the title */
+    margin-bottom: 10px;
+  }
+
+
+/* Task Description */
+.task-description {
+    font-size: 1rem;
+    color: #f0f0f0; /* Lighter color for description text */
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(0, 122, 255, 0.4); /* Subtle glow effect */
+  }
+
+  /* Task Info (Deadline, Priority, etc.) */
+.task-info {
+    font-size: 0.9rem;
+    color: #cccccc;
+    margin-bottom: 5px;
+  }
+
+  /* Pixel Font and Glow for Text */
+h2, p {
+    font-family: 'Press Start 2P', cursive; /* Use pixel-style font */
+  }
+  
+
+  /* Add a subtle border and padding for inputs and select */
+input, textarea, select {
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 10px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+  }
+
+  /* Focus effect for inputs and select */
+input:focus, textarea:focus, select:focus {
+    border-color: #63b3ed; /* Light blue when focused */
+    outline: none;
+  }
+
+  /* Modal container style */
+.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bg-black {
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  }
+
+  /* Buttons for actions (Save, Cancel) */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+
+/* Specific Button Styles for Complete Task Button */
+.complete-btn {
+    background: rgba(0, 255, 0, 0.7); /* Green background for Complete Task button */
+    border: 2px solid rgba(0, 255, 0, 0.7); /* Green border */
+  }
+  
+.complete-btn:hover {
+    background: rgba(0, 255, 0, 1); /* Brighter green on hover */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 1); /* Green glow on hover */
+  }
+  .text-background {
+    position: absolute;
+    inset: 0; /* Fill the parent container */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    border-radius: 12px; /* Match the card border-radius */
+    z-index: 0; /* Ensure it's behind the text */
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .task-card {
+      width: calc(50% - 20px); /* 2 cards per row on small screens */
+    }
+  }
+  
+@media (max-width: 480px) {
+    .task-card {
+      width: 100%; /* 1 card per row on very small screens */
+    }
+  }
+  

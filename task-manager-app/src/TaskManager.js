@@ -2,22 +2,42 @@ import React, { useState, useEffect } from "react";
 import './styles.css';
 import TaskModal from "./TaskModal";
 import { db } from "./firebase";
-import { collection, getDocs, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, updateDoc, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
 
   const tasksCollectionRef = collection(db, "tasks");
 
   const fetchTasks = async () => {
     const data = await getDocs(tasksCollectionRef);
-    setTasks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    const tasks = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    setTasks(tasks);
+
+    // Calculate completed tasks
+    const completed = tasks.filter(task => task.status === "Completed").length;
+    setCompletedTasks(completed);
+  };
+
+  const fetchUserPoints = async () => {
+    const userDoc = doc(db, "users", "user-id"); // Replace "user-id" with actual user ID logic
+    const userSnapshot = await getDoc(userDoc);
+    if (userSnapshot.exists()) {
+      setTotalPoints(userSnapshot.data().totalPoints || 0);
+    } else {
+      // Create user document if missing
+      await setDoc(userDoc, { totalPoints: 0 });
+      setTotalPoints(0);
+    }
   };
 
   useEffect(() => {
     fetchTasks();
+    fetchUserPoints();
   }, []);
 
   const handleAddTask = () => {
@@ -32,7 +52,32 @@ const TaskManager = () => {
 
   const handleCompleteTask = async (task) => {
     const taskDoc = doc(db, "tasks", task.id);
+
+    // Assign points based on priority
+    const points =
+      task.priority === "High" ? 50 :
+      task.priority === "Medium" ? 30 : 
+      10;
+
+    // Update task status to "Completed"
     await updateDoc(taskDoc, { status: "Completed" });
+
+    // Update user points
+    const userDoc = doc(db, "users", "user-id"); // Replace with actual user ID
+    const userSnapshot = await getDoc(userDoc);
+
+    if (!userSnapshot.exists()) {
+      // Create user document if it doesn't exist
+      await setDoc(userDoc, { totalPoints: 0 });
+    }
+
+    const currentPoints = userSnapshot.data()?.totalPoints || 0;
+
+    await updateDoc(userDoc, {
+      totalPoints: currentPoints + points,
+    });
+
+    setTotalPoints(currentPoints + points);
     fetchTasks();
   };
 
@@ -42,52 +87,79 @@ const TaskManager = () => {
     fetchTasks();
   };
 
+  const filteredTasks = tasks.filter(task => task.status !== "Completed");
+
   return (
-    <div className="p-6 min-h-screen bg-gradient-to-b from-blue-500 to-indigo-700 text-white">
-      <h1 className="text-3xl font-bold text-center mb-4">Task Manager</h1>
+    <div className="task-manager-container">
+      {/* Header Section */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-glow text-4xl font-extrabold tracking-wide">
+          Task Manager
+        </h1>
+        <div className="bg-gray-800 text-yellow-400 px-4 py-2 rounded-lg shadow-md">
+          <h2 className="text-lg font-bold">Total Points: {totalPoints}</h2>
+        </div>
+      </div>
+  
+      {/* Add Task Button */}
       <button
-        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded shadow-md transition-all mt-4"
+        className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 font-semibold rounded-lg shadow-md transition-all mt-4 hover:scale-105 focus:ring focus:ring-green-300"
         onClick={handleAddTask}
       >
-        Add Task
+        + Add Task
       </button>
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  
+      {/* Task List with Flexbox */}
+      <div className="mt-6 task-list flex flex-wrap gap-6 justify-center">
         {tasks
           .filter((task) => task.status !== "Completed") // Exclude completed tasks
           .map((task) => (
             <div
               key={task.id}
-              className="p-4 bg-white text-black rounded-lg shadow-md transition-all hover:shadow-lg"
+              className="task-card transition-all hover:shadow-lg hover:scale-105"
             >
-              <h2 className="font-semibold text-lg">{task.title}</h2>
-              <p>{task.description}</p>
-              <p className="text-sm text-gray-600">
-                Deadline: {task.deadline?.toDate().toLocaleDateString()}
+              {/* Task Title */}
+              <h2 className="task-title text-blue-300">{task.title}</h2>
+              {/* Task Description */}
+              <p className="task-description">{task.description}</p>
+              {/* Task Details */}
+              <p className="task-info">
+                <span className="font-medium">Deadline:</span>{" "}
+                {task.deadline?.toDate().toLocaleDateString()}
               </p>
-              <p className="text-sm text-gray-600">Priority: {task.priority}</p>
-              <div className="flex gap-2 mt-2">
+              <p className="task-info">
+                <span className="font-medium">Priority:</span>{" "}
+                <span className={`priority-${task.priority.toLowerCase()}`}>
+                  {task.priority}
+                </span>
+              </p>
+  
+              {/* Task Buttons */}
+              <div className="flex gap-3 mt-4">
                 <button
-                  onClick={() => handleEditTask(task)} // Edit button
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded"
+                  onClick={() => handleEditTask(task)}
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all hover:scale-105 focus:ring focus:ring-yellow-300"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => handleCompleteTask(task)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
-                >
-                  Complete
-                </button>
-                <button
                   onClick={() => handleDeleteTask(task)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold shadow-md transition-all hover:scale-105 focus:ring focus:ring-red-300"
                 >
                   Delete
+                </button>
+                <button
+                  onClick={() => handleCompleteTask(task)}
+                  className="complete-btn px-4 py-2 rounded-lg font-semibold shadow-md transition-all hover:scale-105 focus:ring focus:ring-green-300"
+                >
+                  Complete
                 </button>
               </div>
             </div>
           ))}
       </div>
+  
+      {/* Modal */}
       {modalOpen && (
         <TaskModal
           currentTask={currentTask}
@@ -97,6 +169,8 @@ const TaskManager = () => {
       )}
     </div>
   );
-};
+  
+  
+}  
 
 export default TaskManager;
