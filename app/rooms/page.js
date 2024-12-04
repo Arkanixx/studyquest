@@ -1,34 +1,55 @@
-"use client"
-import Link from 'next/link';
+'use client'; // Required for components with state/hooks in app directory
 
-import { db } from "../firebase.js"
-import CreateRoom from './CreateRoom.js';
-import RoomsList from './RoomsList.js';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation"; // New Next.js app router
+import CreateRoom from "./CreateRoom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 
-// Import the functions you need from the SDKs you need
-import { collection, addDoc } from "firebase/firestore";
-import { doc, getDoc } from "firebase/firestore";
+export default function RoomsPage() {
+  const [rooms, setRooms] = useState([]);
+  const router = useRouter();
 
+  useEffect(() => {
+    const fetchRooms = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "rooms"));
+        const fetchedRooms = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setRooms(fetchedRooms);
+      } catch (err) {
+        console.error("Error fetching rooms:", err);
+      }
+    };
 
+    fetchRooms();
+  }, []);
 
-export default function Rooms() {
-    
-    return (
-        <>
-        <main>
+  const joinRoom = (roomId) => {
+    router.push(`/rooms/${roomId}`); // Navigate to the individual room page
+  };
 
-        <h1>YOUR IN ROOMS</h1>
-        <Link href="/">Home</Link>
+  return (
+    <main>
+      <h1>Available Rooms</h1>
+      {rooms.length > 0 ? (
+        <ul>
+          {rooms.map((room) => (
+            <li key={room.id}>
+              <h2>{room.roomName}</h2>
+              <p>Topic: {room.roomTopic}</p>
+              <button onClick={() => joinRoom(room.id)}>Join Room</button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No rooms available. Create one!</p>
+      )}
 
-        <div style={{ padding: "20px" }}>
-            <CreateRoom />
-        </div>
-        
-        <div style={{ padding: "20px" }}>
-            <RoomsList />
-        </div>
-
-        </main>
-        </>
-    )
+      <CreateRoom />
+    </main>
+  );
 }
+

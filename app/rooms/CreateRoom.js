@@ -6,12 +6,11 @@ import { db } from "../firebase";
 const CreateRoom = () => {
     const [roomName, setName] = useState("");
     const [roomTopic, setTopic] = useState("");
-    const [creator, setCreator] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!roomName || !roomTopic || !creator) {
+        if (!roomName || !roomTopic) {
             alert("Please fill in all fields");
             return;
         }
@@ -20,7 +19,6 @@ const CreateRoom = () => {
             const docRef = await addDoc(collection(db, "rooms"), {
                 roomName,
                 roomTopic,
-                creator,
                 createdAt: serverTimestamp(),
             });
             alert(`Chat room created with ID: ${docRef.id}`);
@@ -31,7 +29,6 @@ const CreateRoom = () => {
 
         setName("");
         setTopic("");
-        setCreator("");
     };
 
     return (
@@ -54,15 +51,6 @@ const CreateRoom = () => {
                     value={roomTopic}
                     onChange={(e) => setTopic(e.target.value)}
                     placeholder="Enter room topic"
-                />
-            </div>
-            <div style={{padding: "5px"}}>
-                <label>Creator Name:</label>
-                <input
-                    type="text"
-                    value={creator}
-                    onChange={(e) => setCreator(e.target.value)}
-                    placeholder="Enter your username"
                 />
             </div>
             <div style={{padding: "5px 5px 5px 20px"}}>
