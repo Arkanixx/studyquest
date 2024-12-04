@@ -4,6 +4,7 @@ import { db } from "../../config/firebase";
 import { doc, getDoc, collection, addDoc, getDocs } from "firebase/firestore";
 import { useParams } from "next/navigation";
 import { UserContext } from "../../context/userContext";
+import styles from "./PostDetail.module.css";
 
 export default function PostDetailPage() {
     const params = useParams();
@@ -64,32 +65,32 @@ export default function PostDetailPage() {
     if (!post) return <p>Loading post...</p>;
 
     return (
-        <div>
-            <h1>{post.postTitle}</h1>
-            <p>{post.postContent}</p>
-            <p>Author: {post.userName}</p>
-            <p>Published on: {new Date(post.datePublished.seconds * 1000).toLocaleString()}</p>
+        <div className={styles.container}>
+            <h1 className={styles.title}>{post.postTitle}</h1>
+            <p className={styles.meta}>
+                Posted by {post.userName} on{" "}
+                {new Date(post.datePublished.seconds * 1000).toLocaleString()}
+            </p>
+            <p className={styles.content}>{post.postContent}</p>
 
-            <h2>Comments</h2>
-            {comments.map((c) => (
-                <div key={c.id}>
-                    <p>
-                        <strong>{c.userName}:</strong> {c.content}
-                    </p>
-                    <p>
-                        <small>{new Date(c.date.seconds * 1000).toLocaleString()}</small>
-                    </p>
-                </div>
-            ))}
+            <div className={styles.comments}>
+                <h2>Comments</h2>
+                {comments.map((comment) => (
+                    <div key={comment.id} className={styles.comment}>
+                        <p className={styles.author}>{comment.author}</p>
+                        <p className={styles.text}>{comment.text}</p>
+                    </div>
+                ))}
 
-            <div>
-                <h3>Add a Comment</h3>
                 <textarea
-                    placeholder="Write your comment here..."
+                    className={styles.input}
+                    placeholder="Write a comment..."
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                 />
-                <button onClick={addComment}>Submit Comment</button>
+                <button className={styles.button} onClick={addComment}>
+                    Add Comment
+                </button>
             </div>
         </div>
     );

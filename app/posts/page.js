@@ -1,4 +1,5 @@
 "use client";
+import styles from "./PostManager.module.css";
 import React, { useState, useEffect, useContext } from "react";
 import { db } from "../config/firebase";
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -46,29 +47,39 @@ export default function PostManagerPage() {
     };
 
     return (
-        <div>
-            <div>
-                <p>Posting as: <strong>{user ? user.userName : "Guest"}</strong></p>
+        <div className={styles.container}>
+            <div className={styles.createPost}>
+                <h3 >
+                    Posting as: <strong>{user ? user.userName : "Guest"}</strong>
+                </h3>
                 <input
+                    className={styles.input}
                     placeholder="Title"
                     value={newPostTitle}
                     onChange={(e) => setNewPostTitle(e.target.value)}
                 />
                 <textarea
+                    className={styles.textarea}
                     placeholder="Post content"
                     value={newPostContent}
                     onChange={(e) => setNewPostContent(e.target.value)}
                 />
-                <button onClick={onSubmitPost}>Submit Post</button>
+                <button className={styles.button} onClick={onSubmitPost}>
+                    Submit Post
+                </button>
             </div>
-            <div>
-                <h2>Posts</h2>
+            <div className={styles.posts}>
+                <h2 className="">Posts</h2>
                 {postsList.map((post) => (
-                    <div key={post.id}>
-                        <h3>{post.postTitle}</h3>
-                        <p>{post.postContent.slice(0, 100)}...</p>
-                        <Link href={`/posts/${post.id}`}>Read more</Link>
-                        <p>
+                    <div key={post.id} className={styles.post}>
+                        <h3 className={styles.title}>{post.postTitle}</h3>
+                        <p className={styles.contentPreview}>
+                            {post.postContent.slice(0, 100)}...
+                        </p>
+                        <Link href={`/posts/${post.id}`} className={styles.readMore}>
+                            Read more
+                        </Link>
+                        <p className={styles.meta}>
                             Posted by {post.userName} on{" "}
                             {new Date(post.datePublished.seconds * 1000).toLocaleString()}
                         </p>

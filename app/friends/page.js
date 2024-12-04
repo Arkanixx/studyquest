@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/userContext";
 import { db } from "../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import styles from "./Friend.module.css";
 
 export default function FriendsPage() {
     const { user, loading } = useContext(UserContext);
@@ -20,18 +21,20 @@ export default function FriendsPage() {
     }, [user, loading]);
 
     return (
-        <div>
-            <h3>My Friends</h3>
+        <div className={styles.container}>
+            <h3 className={styles.header}>My Friends</h3>
             {loading ? (
                 <p>Loading...</p>
             ) : friends.length > 0 ? (
-                <ul>
+                <ul className={styles.list}>
                     {friends.map((friend) => (
-                        <li key={friend.userId}>{friend.userName}</li>
+                        <li key={friend.userId} className={styles.list-item}>
+                            {friend.userName}
+                        </li>
                     ))}
                 </ul>
             ) : (
-                <p>No friends found.</p>
+                <p className={styles.empty}>No friends found.</p>
             )}
         </div>
     );

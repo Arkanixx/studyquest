@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import { db } from "../../config/firebase";
 import { collection, getDocs, deleteDoc, setDoc, doc } from "firebase/firestore";
+import styles from "./FriendRequests.module.css";
 
 export default function FriendRequestsPage() {
     const { user, loading } = useContext(UserContext);
@@ -36,23 +37,35 @@ export default function FriendRequestsPage() {
     };
 
     return (
-        <div>
-            <h3>Friend Requests</h3>
-            {loading ? (
-                <p>Loading...</p>
-            ) : requests.length > 0 ? (
-                <ul>
-                    {requests.map((req) => (
-                        <li key={req.id}>
-                            {req.senderName}
-                            <button onClick={() => handleRequest(req.id, req.senderId, "accept")}>Accept</button>
-                            <button onClick={() => handleRequest(req.id, req.senderId, "reject")}>Reject</button>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p>No friend requests found.</p>
-            )}
-        </div>
+        <div className={styles.container}>
+        <h3 className={styles.header}>Friend Requests</h3>
+        {loading ? (
+            <p>Loading...</p>
+        ) : requests.length > 0 ? (
+            <ul className={styles.list}>
+                {requests.map((req) => (
+                    <li key={req.id} className={styles.list-item}>
+                        {req.senderName}
+                        <div>
+                            <button
+                                className={styles.button}
+                                onClick={() => handleRequest(req.id, req.senderId, "accept")}
+                            >
+                                Accept
+                            </button>
+                            <button
+                                className={`${styles.button} ${styles.reject}`}
+                                onClick={() => handleRequest(req.id, req.senderId, "reject")}
+                            >
+                                Reject
+                            </button>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        ) : (
+            <p className={styles.empty}>No friend requests found.</p>
+        )}
+    </div>
     );
 }

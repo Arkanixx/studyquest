@@ -1,4 +1,5 @@
 "use client";
+import styles from "./Auth.module.css";
 import React, { useState } from "react";
 import { auth, googleProvider } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
@@ -36,11 +37,11 @@ export default function AuthPage() {
 
     return (
         <div>
-            <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-            <input placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
-            <button onClick={signUp}>Sign Up</button>
-            <button onClick={signInWithGoogle}>Sign In with Google</button>
-            <button onClick={logout}>Sign Out</button>
+            <input className={styles.input} placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+            <input className={styles.input} placeholder="Password" type="password" onChange={(e) => setPassword(e.target.value)} />
+            <button className={styles.button}onClick={signUp}>Sign Up</button>
+            <button className={styles.button}onClick={signInWithGoogle}>Sign In with Google</button>
+            <button className={styles.button}onClick={logout}>Sign Out</button>
         </div>
     );
 }

@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { db } from "../../config/firebase";
 import { collection, query, where, getDocs, addDoc, doc, getDoc } from "firebase/firestore";
 import { UserContext } from "../../context/userContext";
+import styles from "./FriendSearch.module.css";
 
 export default function FriendSearchPage() {
     const [searchUsername, setSearchUsername] = useState("");
@@ -72,25 +73,31 @@ export default function FriendSearchPage() {
     };
 
     return (
-        <div>
-            <h3>Search for Friends</h3>
+        <div className={styles.container}>
+            <h3 className={styles.header}>Search for Friends</h3>
             <input
+                className={styles.input}
                 placeholder="Enter username"
                 value={searchUsername}
                 onChange={(e) => setSearchUsername(e.target.value)}
             />
-            <button onClick={searchUsers}>Search</button>
+            <button className={styles.button} onClick={searchUsers}>
+                Search
+            </button>
 
-            {message && <p>{message}</p>}
+            {message && <p className={styles.message}>{message}</p>}
 
             {searchResults.length > 0 && (
-                <div>
+                <div className={styles.results}>
                     <h4>Search Results</h4>
                     <ul>
                         {searchResults.map((user) => (
-                            <li key={user.id}>
+                            <li key={user.id} className={styles.resultItem}>
                                 {user.userName}
-                                <button onClick={() => sendFriendRequest(user.id, user.userName)}>
+                                <button
+                                    className={styles.addFriendButton}
+                                    onClick={() => sendFriendRequest(user.id, user.userName)}
+                                >
                                     Add Friend
                                 </button>
                             </li>
