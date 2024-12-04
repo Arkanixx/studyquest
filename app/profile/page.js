@@ -1,39 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './profile.css'; // Ensure to import your CSS
-
 
 const ProfilePage = () => {
   const [name, setName] = useState('John Doe');
   const [isEditing, setIsEditing] = useState(false);
   const [avatarClass, setAvatarClass] = useState('avatar-outfit-1');
-
-  const [level, setLevel] = useState(1);
-  const [experience, setExperience] = useState(30);
-  const maxExperience = 100;
-
-
-  const xpPercentage = (experience / maxExperience) * 100; // Percentage of XP out of maxXP
+  const [level, setLevel] = useState(1); 
+  const [experience, setExperience] = useState(30); 
+  const maxExperience = 100; 
+  const xpPercentage = (experience / maxExperience) * 100;
 
   const [activeTab, setActiveTab] = useState('profile');
-
-  const [skills, setSkills] = useState([]); // Store user skills in an array
-  const [newSkill, setNewSkill] = useState(''); // Input for new skill
-
-    // Function to handle adding a skill
-    const handleAddSkill = () => {
-      if (newSkill.trim() !== '') {
-        setSkills([...skills, newSkill.trim()]);
-        setNewSkill(''); // Clear input after adding
-      }
-    };
-  
-    // Function to remove a skill
-    const handleRemoveSkill = (skill) => {
-      setSkills(skills.filter((s) => s !== skill));
-    };
-
+  const [skills, setSkills] = useState([]);
+  const [newSkill, setNewSkill] = useState('');
   const [achievements, setAchievements] = useState([
     { id: 1, title: 'First Avatar Save', description: 'Save your first avatar.', completed: false },
     { id: 2, title: 'First Quiz Passed', description: 'Pass your first quiz with a score of 70% or higher.', completed: true },
@@ -76,127 +57,32 @@ const ProfilePage = () => {
     { id: 39, title: 'Reading List Conqueror', description: 'Finish reading a required reading list for a semester or course.', completed: false },
     { id: 40, title: 'Study Consistency King/Queen', description: 'Study consistently for 30 days straight, hitting your daily study goal.', completed: false },
   ]);
-  
 
-  // Assume userLevel and other variables are already defined
-let userLevel = 1; // Example starting level
+  const [notifications, setNotifications] = useState([]);
+  const [inventoryVisible, setInventoryVisible] = useState(false); // State to toggle inventory visibility
+  const [inventoryItems, setInventoryItems] = useState([]); // Store the items in the inventory
 
-// Function to dynamically create user-level container if it doesn't exist
-function createUserLevelElement() {
-  // Check if the 'user-level' element already exists
-  let levelElement = document.getElementById("user-level");
-  if (!levelElement) {
-    // Create a new div if not found
-    levelElement = document.createElement("div");
-    levelElement.id = "user-level";  // Set the id
-    document.body.appendChild(levelElement);  // Append to body or a specific container
-  }
-  return levelElement;
-}
+  const inventoryRef = useRef(null);
+  const resizeHandleRef = useRef(null);
 
-// Function to update the level display
-function updateLevel() {
-  const levelElement = createUserLevelElement();  // Create or get the level element
-  levelElement.textContent = `Level: ${userLevel}`;  // Update the text content
-}
-
-// Function to create XP bar container if it doesn't exist
-function createXPBar() {
-  let xpBarElement = document.getElementById("xp-bar");
-  if (!xpBarElement) {
-    // Create a new div for the XP bar
-    xpBarElement = document.createElement("div");
-    xpBarElement.id = "xp-bar";
-    xpBarElement.style.width = "100%";  // Set some width
-    document.body.appendChild(xpBarElement); // Append to body or a specific container
-  }
-  return xpBarElement;
-}
-
-// Function to update the XP bar
-function updateXPBar() {
-  const xpBar = createXPBar(); // Create or get XP bar container
-  const xpFill = xpBar.querySelector("#xp-fill");
-
-  if (!xpFill) {
-    // If xp-fill doesn't exist, create it
-    const newXpFill = document.createElement("div");
-    newXpFill.id = "xp-fill";
-    xpBar.appendChild(newXpFill);  // Append to the XP bar
-  }
-
-  // Set the width of the XP fill based on user level (example logic)
-  const xpFillWidth = userLevel * 10;  // Just an example, you can adjust the logic
-  document.getElementById("xp-fill").style.width = `${xpFillWidth}%`;
-}
-
-// Simulate gaining XP and leveling up
-function gainXP(amount) {
-  userLevel += amount;
-  updateLevel();  // Update the level display
-  updateXPBar();  // Update the XP bar
-}
-
-// Initialize the page
-document.addEventListener("DOMContentLoaded", function() {
-  updateLevel();  // Initial update of level
-  updateXPBar();  // Initial XP bar update
-
-  // Example: Simulate gaining XP after 2 seconds
-  setTimeout(() => gainXP(1), 2000);  // Gain 1 level after 2 seconds
-});
-
-const levelUp = () => {
-  if (experience + 10 >= maxExperience) {
-    setExperience(0); // Reset XP to 0 for the next level
-    setLevel(level + 1); // Increment the level
-  } else {
-    setExperience(experience + 10); // Add XP (for simulation)
-  }
-};
-
-<div className="xp-bar-container">
-<div className="xp-fill" style={{ width: `${xpPercentage}%` }} /> {/* This fills the XP bar */}
-<div className="xp-text">
-  <span className="xp-level">{level}</span> - <span className="xp-progress">{experience}/{maxExperience} XP</span>
-</div>
-</div>
-  const [notifications, setNotifications] = useState([]); // To store notifications
-
-  // Function to handle name change
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleAddSkill = () => {
+    if (newSkill.trim() !== '') {
+      setSkills([...skills, newSkill.trim()]);
+      setNewSkill('');
+    }
   };
 
-  const toggleEditMode = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const handleAvatarChange = (newAvatarClass) => {
-    setAvatarClass(newAvatarClass);
-  };
-
-  // Function to trigger achievement notification
-  const triggerNotification = (achievementTitle) => {
-    const newNotification = {
-      id: Date.now(),
-      message: `${achievementTitle} Unlocked!`,
-    };
-
-    setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
-
-    // Remove the notification after a set time (e.g., 5 seconds)
-    setTimeout(() => {
-      setNotifications((prevNotifications) => prevNotifications.filter((notif) => notif.id !== newNotification.id));
-    }, 5000); // Notification disappears after 5 seconds
+  const handleRemoveSkill = (skill) => {
+    setSkills(skills.filter((s) => s !== skill));
   };
 
   const saveAvatar = () => {
-    // Check if the "First Avatar Save" achievement has been completed
     const updatedAchievements = achievements.map((achievement) => {
       if (achievement.title === 'First Avatar Save' && !achievement.completed) {
         achievement.completed = true;
-        triggerNotification(achievement.title); // Trigger notification on achievement
+        gainXP(20); // Add XP when the achievement is unlocked
+        addInventoryItem('SaveAvatar'); // Add CSS class instead of image URL
+        triggerNotification(`${achievement.title} unlocked!`); // Show notification for achievements only
       }
       return achievement;
     });
@@ -204,7 +90,34 @@ const levelUp = () => {
     alert('Avatar saved and achievement unlocked!');
   };
 
-  // Render achievements
+  const addInventoryItem = (itemClass) => {
+    setInventoryItems((prevItems) => [...prevItems, itemClass]);
+    // No notification trigger here for inventory items
+  };
+
+  const triggerNotification = (message) => {
+    const newNotification = {
+      id: Date.now(),
+      message: `${message}`,
+    };
+    setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+    setTimeout(() => {
+      setNotifications((prevNotifications) => prevNotifications.filter((notif) => notif.id !== newNotification.id));
+    }, 5000); // Notification disappears after 5 seconds
+  };
+
+  const gainXP = (amount) => {
+    let newXP = experience + amount;
+
+    if (newXP >= maxExperience) {
+      const newLevel = level + 1;
+      setLevel(newLevel); 
+      setExperience(newXP - maxExperience); 
+    } else {
+      setExperience(newXP); 
+    }
+  };
+
   const renderAchievements = () => {
     return achievements.map((achievement) => (
       <div key={achievement.id} className={`achievement-item ${achievement.completed ? 'completed' : ''}`}>
@@ -223,6 +136,84 @@ const levelUp = () => {
     ));
   };
 
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const toggleEditMode = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleAvatarChange = (newAvatarClass) => {
+    setAvatarClass(newAvatarClass);
+  };
+
+  // Draggable and resizable functionality for the inventory
+  useEffect(() => {
+    const inventoryElement = inventoryRef.current;
+    const resizeHandle = resizeHandleRef.current;
+    
+    let isDragging = false;
+    let isResizing = false;
+    let offsetX, offsetY, startWidth, startHeight;
+
+    const onDragStart = (e) => {
+      if (e.target !== resizeHandle) {
+        isDragging = true;
+        offsetX = e.clientX - inventoryElement.offsetLeft;
+        offsetY = e.clientY - inventoryElement.offsetTop;
+        document.addEventListener('mousemove', onDragMove);
+        document.addEventListener('mouseup', onDragEnd);
+      }
+    };
+
+    const onDragMove = (e) => {
+      if (isDragging) {
+        inventoryElement.style.left = `${e.clientX - offsetX}px`;
+        inventoryElement.style.top = `${e.clientY - offsetY}px`;
+      }
+    };
+
+    const onDragEnd = () => {
+      isDragging = false;
+      document.removeEventListener('mousemove', onDragMove);
+      document.removeEventListener('mouseup', onDragEnd);
+    };
+
+    const onResizeStart = (e) => {
+      isResizing = true;
+      startWidth = inventoryElement.offsetWidth;
+      startHeight = inventoryElement.offsetHeight;
+      offsetX = e.clientX;
+      offsetY = e.clientY;
+      document.addEventListener('mousemove', onResizeMove);
+      document.addEventListener('mouseup', onResizeEnd);
+    };
+
+    const onResizeMove = (e) => {
+      if (isResizing) {
+        const newWidth = startWidth + (e.clientX - offsetX);
+        const newHeight = startHeight + (e.clientY - offsetY);
+        inventoryElement.style.width = `${newWidth}px`;
+        inventoryElement.style.height = `${newHeight}px`;
+      }
+    };
+
+    const onResizeEnd = () => {
+      isResizing = false;
+      document.removeEventListener('mousemove', onResizeMove);
+      document.removeEventListener('mouseup', onResizeEnd);
+    };
+
+    inventoryElement.addEventListener('mousedown', onDragStart);
+    resizeHandle.addEventListener('mousedown', onResizeStart);
+
+    return () => {
+      inventoryElement.removeEventListener('mousedown', onDragStart);
+      resizeHandle.removeEventListener('mousedown', onResizeStart);
+    };
+  }, []);
+
   return (
     <div className="profile-container">
       {/* Notification Popups */}
@@ -237,7 +228,7 @@ const levelUp = () => {
         ))}
       </div>
 
-      {/* Tabs for Profile and Achievements */}
+      {/* Tabs for Profile, Achievements, Skills */}
       <div className="tabs">
         <button className={activeTab === 'profile' ? 'active' : ''} onClick={() => setActiveTab('profile')}>
           Profile
@@ -248,6 +239,26 @@ const levelUp = () => {
         <button className={activeTab === 'skills' ? 'active' : ''} onClick={() => setActiveTab('skills')}>
           Skills
         </button>
+      </div>
+
+      {/* Inventory Button - Image Icon */}
+      <div className="inventory-icon" onClick={() => setInventoryVisible(!inventoryVisible)} />
+
+      {/* Inventory Section */}
+      <div ref={inventoryRef} className={`inventory-container ${inventoryVisible ? 'show' : ''}`}>
+        <h2>Inventory</h2>
+        <div className="inventory-grid">
+          {Array.from({ length: 9 }).map((_, index) => (
+            <div key={index} className="inventory-slot">
+              {/* If there is an item in the inventory, apply the corresponding CSS class */}
+              {inventoryItems[index] && (
+                <div className={`inventory-item ${inventoryItems[index]}`} />
+              )}
+            </div>
+          ))}
+        </div>
+        {/* Resize Handle */}
+        <div ref={resizeHandleRef} className="resize-handle"></div>
       </div>
 
       {/* Profile Section */}
@@ -312,13 +323,13 @@ const levelUp = () => {
             <h2>Achievements</h2>
             <div className="achievements-list">
               {renderAchievements()}
-              </div>
+            </div>
           </div>
         )}
       </div>
 
-   {/* Skills Tab */}
-   <div className={`tab-content ${activeTab === 'skills' ? 'fade-in' : 'fade-out'}`}>
+      {/* Skills Tab */}
+      <div className={`tab-content ${activeTab === 'skills' ? 'fade-in' : 'fade-out'}`}>
         {activeTab === 'skills' && (
           <div className="skills-container">
             <h2>Skills</h2>
@@ -342,10 +353,8 @@ const levelUp = () => {
               <ul className="skills-list">
                 {skills.map((skill, index) => (
                   <li key={index} className="skill-item">
-                    <span className="skill-name">{skill}</span>
-                    <button onClick={() => handleRemoveSkill(skill)} className="remove-skill-button">
-                      x
-                    </button>
+                    {skill}
+                    <button className="remove-skill-button" onClick={() => handleRemoveSkill(skill)}>𝘅</button>
                   </li>
                 ))}
               </ul>
