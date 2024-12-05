@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./styles.css";
-import { db } from "./firebase";
+import "./tasks.css";
+import { db } from "../../app/DailyPlanner/firebase";
 import { addDoc, updateDoc, doc, collection } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
@@ -73,7 +73,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
       {/* Modal container */}
       <div className="modal-container bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         {/* Modal Title */}
-        <h2 className="modal-title text-2xl font-bold text-center mb-4 text-gray-800">
+        <h2 className="modal-title text-2xl font-bold text-center mb-4 text-gray-800" style={{marginBottom: "20px" }}>
           {currentTask ? `Edit Task: ${currentTask.title}` : "Add New Task"}
         </h2>
         
@@ -83,7 +83,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
           placeholder="Task Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="modal-input border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm"
+          className="modal-input border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm text-black" // Add 'text-black' here
         />
         
         {/* Task Description Textarea */}
@@ -91,7 +91,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
           placeholder="Task Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="modal-textarea border-2 border-gray-300 rounded-lg p-3 w-full mb-4 h-28 resize-none focus:outline-none focus:border-blue-500 shadow-sm"
+          className="modal-textarea border-2 border-gray-300 rounded-lg p-3 w-full mb-4 h-28 resize-none focus:outline-none focus:border-blue-500 shadow-sm text-black" // Add 'text-black' here
         ></textarea>
         
         {/* Task Deadline Input */}
@@ -99,14 +99,14 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
           type="date"
           value={deadline}
           onChange={(e) => setDeadline(e.target.value)}
-          className="modal-input border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm"
+          className="modal-input border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm text-black" // Add 'text-black' here
         />
         
         {/* Task Priority Dropdown */}
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
-          className="modal-select border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm bg-white"
+          className="modal-select border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm bg-white text-black" // Add 'text-black' here
         >
           <option value="High">High</option>
           <option value="Medium">Medium</option>
@@ -118,7 +118,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
-            className="modal-select border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm bg-white"
+            className="modal-select border-2 border-gray-300 rounded-lg p-3 w-full mb-4 focus:outline-none focus:border-blue-500 shadow-sm bg-white text-black" // Add 'text-black' here
           >
             <option value="In Progress">In Progress</option>
             <option value="Completed">Completed</option>
@@ -150,8 +150,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
       </div>
     </div>
   );
-  
-  
 };
 
 export default TaskModal;
+

@@ -1,7 +1,10 @@
+// app/DailyPlanner/TaskManager.js
+'use client';  // Add this line to make it a Client Component
+
 import React, { useState, useEffect } from "react";
-import './styles.css';
+import './tasks.css';
 import TaskModal from "./TaskModal";
-import { db } from "./firebase";
+import { db } from "../../app/DailyPlanner/firebase";
 import { collection, getDocs, updateDoc, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 
 const TaskManager = () => {
@@ -103,7 +106,7 @@ const TaskManager = () => {
   
       {/* Add Task Button */}
       <button
-        className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 font-semibold rounded-lg shadow-md transition-all mt-4 hover:scale-105 focus:ring focus:ring-green-300"
+        className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 font-semibold rounded-lg shadow-md transition-all mt-4 hover:scale-105 focus:ring focus:ring-green-300 add-task-button"
         onClick={handleAddTask}
       >
         + Add Task
