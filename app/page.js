@@ -1,4 +1,5 @@
-"use client";  // Marking this component as a Client Component
+
+'use client';  // Marking this component as a Client Component
 
 import React, { useEffect } from 'react';
 import Link from 'next/link'; // Import Link for navigation
@@ -39,6 +40,10 @@ export default function Home() {
         <Link href="/posts" style={styles.navLink}>Posts</Link>
         <Link href="/friends/search" style={styles.navLink}>Add Friends</Link>
 
+
+        <Link href="/" style={styles.navLink}>Rooms</Link>
+        <Link href="/" style={styles.navLink}>Task Manager</Link>
+        <Link href="/profile" style={styles.navLink}>Profile</Link>
       </nav>
 
       {/* Hero Section */}
@@ -93,6 +98,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/* CTA Section */}
       <section style={styles.ctaSection}>
@@ -294,5 +300,6 @@ const styles = {
     color: '#fff',
     padding: '20px 0',
     textAlign: 'center',
-  },
+  },
+
 };
