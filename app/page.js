@@ -1,8 +1,8 @@
-'use client';  // Marking this component as a Client Component
-"use client";
+"use client"
+import {Box, Modal, Typography, Stack, TextField, Button} from '@mui/material';
+import styles from './page.module.css';
+import { useEffect, useState, useRef } from "react";
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 
 export default function Home() {
   const [isChatOpen, setChatOpen] = useState(false);

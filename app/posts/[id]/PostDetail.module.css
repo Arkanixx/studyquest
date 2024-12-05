@@ -1,0 +1,85 @@
+/* Container for the post details */
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #301f1fa2;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Post title styling */
+.title {
+    font-size: 2em;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+/* Post meta information */
+.meta {
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+/* Post content styling */
+.content {
+    font-size: 1.2em;
+    color: #ffffff;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+/* Comments section */
+.comments {
+    margin-top: 40px;
+}
+
+.comment {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #62e27728;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment .author {
+    font-weight: bold;
+    color: #7af1e896;
+    margin-bottom: 5px;
+}
+
+.comment .text {
+    font-size: 1em;
+    color: #ffffff;
+}
+
+.input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.meta {
+    font-size: 0.9em;
+    color: #c5c5c5;
+    margin-top: 5px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
