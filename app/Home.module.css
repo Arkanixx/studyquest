@@ -1,0 +1,157 @@
+/* app/Home.module.css */
+
+/* Global Styles for Background, Text, etc */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cinzel', serif; /* Classic RPG font */
+}
+
+body {
+    background: #f4f1e1; /* Soft parchment color */
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Styling */
+.header {
+    background: linear-gradient(135deg, #1c3d1f, #608d49); /* Dark green to light green gradient */
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-bottom: 5px solid #b98b4b; /* Gold-like border */
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.header p {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+/* Navbar Styling */
+.nav {
+    background-color: #3b3d42; /* Dark neutral background */
+    padding: 20px 0;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    border-top: 3px solid #b98b4b; /* Gold line separating navbar */
+}
+
+.navLink {
+    color: white;
+    padding: 10px 20px;
+    margin: 0 12px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.navLink:hover {
+    background-color: #b98b4b; /* Gold color on hover */
+    transform: translateY(-3px);
+    border: 2px solid #b98b4b;
+}
+
+/* Hero Section */
+.hero {
+    background: url('homebackground.gif') no-repeat center center/cover;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Cinzel', serif;
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for contrast */
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+.hero h2 {
+    font-size: 4rem;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Content Section */
+.content {
+    padding: 50px 20px;
+    text-align: center;
+    background: #f4f1e1;
+}
+
+.content h2 {
+    font-size: 2.8rem;
+    color: #3b3d42;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Card Styling */
+.card {
+    display: inline-block;
+    width: 30%;
+    margin: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #d0c5b7; /* Light border to define the cards */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Cinzel', serif;
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Subtle hover effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cardImage {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 1.8rem;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #1c3d1f;
+}
+
+.card p {
+    color: #6b4f3a;
+    font-size: 1.1rem;
+    margin-top: 10px;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #3b3d42;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 1rem;
+    border-top: 3px solid #b98b4b; /* Gold border at the top */
+}
+
+.footer p {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+}
