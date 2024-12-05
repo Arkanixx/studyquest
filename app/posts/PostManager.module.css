@@ -1,9 +1,9 @@
 /* Main container for the component */
 .container {
-    max-width: 800px;
+    max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #92f0b6;
+    background-color: #301f1fa2;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -49,7 +49,8 @@
 
 .post {
     padding: 15px;
-    border-bottom: 1px solid #ddd;
+    background-color: #2b4b3263;
+    border-bottom: 1px solid #2ab152;
 }
 
 .post:last-child {
@@ -58,16 +59,16 @@
 
 .title {
     font-size: 1.5em;
-    color: #333;
+    color: #ffffff;
 }
 
 .contentPreview {
     margin: 10px 0;
-    color: #555;
+    color: #ffffff;
 }
 
 .readMore {
-    color: #007bff;
+    color: #00eeffd2;
     text-decoration: none;
     font-weight: bold;
     margin-right: 10px;
@@ -79,6 +80,6 @@
 
 .meta {
     font-size: 0.9em;
-    color: #888;
+    color: #c5c5c5;
     margin-top: 5px;
 }

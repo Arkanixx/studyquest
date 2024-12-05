@@ -5,25 +5,18 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
             <body>
+            <nav style={styles.nav}>
+                <a href ="/" style={styles.navLink}>Home</a>
+                <a href="/auth" style={styles.navLink}>Auth</a>
+                <a href="/friends" style={styles.navLink}>Friends</a>
+                <a href="/friends/requests" style={styles.navLink}>Friend Requests</a>
+                <a href="/posts" style={styles.navLink}>Posts</a>
+                <a href="/friends/search" style={styles.navLink}>Add Friends</a>
+                <a href="/" style={styles.navLink}>Rooms</a>
+                <a href="/" style={styles.navLink}>Task Manager</a>
+                <a href="/" style={styles.navLink}>Profile</a>
+            </nav>
                 <UserProvider>
-                    <nav>
-                        <a href="/">
-                            <img
-                                src="/logo.svg"
-                                alt="Logo"
-                                style={{
-                                    height: "60px",
-                                    marginRight: "10px",
-                                    borderRadius: "5px", 
-                                }}
-                            />
-                        </a>
-                        <a href="/auth">Auth</a>
-                        <a href="/friends">Friends</a>
-                        <a href="/friends/requests">Friend Requests</a>
-                        <a href="/friends/search">Add Friend</a>
-                        <a href="/posts">Posts</a>
-                    </nav>
                     <div
                         style={{
                             backgroundImage: "url('/rpg-background.gif')", // Corrected path
@@ -40,4 +33,22 @@ export default function RootLayout({ children }) {
             </body>
         </html>
     );
+}
+
+const styles = {
+    nav: {
+        backgroundColor: '#3a3f60', // Darker blue background for nav
+        padding: '20px',
+        textAlign: 'center',
+        borderBottom: '2px solid #88aadd',
+      },
+      navLink: {
+        color: '#fff',
+        padding: '14px 20px',
+        margin: '0 10px',
+        fontSize: '1.1rem',
+        textDecoration: 'none',
+        transition: 'color 0.3s ease, transform 0.3s ease',
+        fontFamily: 'serif',
+      },
 }

@@ -3,7 +3,7 @@
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #301f1fa2;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -11,7 +11,7 @@
 /* Header */
 .header {
     font-size: 1.5em;
-    color: #333;
+    color: #f1f1f1;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -22,10 +22,10 @@
     padding: 0;
 }
 
-.list-item {
+.listItem {
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ffffff;
+    background-color:#62e27728;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

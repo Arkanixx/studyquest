@@ -74,11 +74,15 @@ export default function PostDetailPage() {
             <p className={styles.content}>{post.postContent}</p>
 
             <div className={styles.comments}>
-                <h2>Comments</h2>
+                <h2 >Comments</h2>
                 {comments.map((comment) => (
                     <div key={comment.id} className={styles.comment}>
-                        <p className={styles.author}>{comment.author}</p>
-                        <p className={styles.text}>{comment.text}</p>
+                        <p className={styles.author}>{comment.userName}</p>
+                        <p className={styles.text}>{comment.content}</p>
+                        <p className={styles.meta}>
+                            Posted on{" "}
+                            {new Date(comment.date.seconds * 1000).toLocaleString()}
+                        </p>
                     </div>
                 ))}
 

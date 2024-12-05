@@ -28,7 +28,7 @@ export default function FriendsPage() {
             ) : friends.length > 0 ? (
                 <ul className={styles.list}>
                     {friends.map((friend) => (
-                        <li key={friend.userId} className={styles.list-item}>
+                        <li key={friend.userId} className={styles.listItem}>
                             {friend.userName}
                         </li>
                     ))}

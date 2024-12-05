@@ -3,7 +3,7 @@
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #301f1fa2;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -11,7 +11,7 @@
 /* Header styling */
 .header {
     font-size: 1.5em;
-    color: #333;
+    color: #ffffff;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -22,13 +22,13 @@
     padding: 0;
 }
 
-.list-item {
+.listItem {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ffffff;
+    background-color: #629ee2a8;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -60,7 +60,7 @@
 /* Empty state styling */
 .empty {
     text-align: center;
-    color: #888;
+    color: #a8a8a8;
     font-size: 1.2em;
     margin-top: 20px;
 }

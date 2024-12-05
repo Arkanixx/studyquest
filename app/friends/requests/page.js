@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../context/userContext";
 import { db } from "../../config/firebase";
-import { collection, getDocs, deleteDoc, setDoc, doc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, setDoc, doc, getDoc } from "firebase/firestore";
 import styles from "./FriendRequests.module.css";
 
 export default function FriendRequestsPage() {
@@ -23,16 +23,48 @@ export default function FriendRequestsPage() {
     const handleRequest = async (requestId, senderId, action) => {
         try {
             const requestRef = doc(db, `users/${user.uid}/friendRequests/${requestId}`);
+    
             if (action === "accept") {
-                const senderRef = doc(db, `users/${senderId}/friends/${user.uid}`);
-                const receiverRef = doc(db, `users/${user.uid}/friends/${senderId}`);
-                await setDoc(senderRef, { userId: user.uid, userName: user.displayName });
-                await setDoc(receiverRef, { userId: senderId, userName: senderId }); // Simplified
+                // Fetch sender's data
+                const senderDocRef = doc(db, "users", senderId);
+                const senderDoc = await getDoc(senderDocRef);
+    
+                if (!senderDoc.exists()) {
+                    throw new Error("Sender does not exist.");
+                }
+    
+                const senderData = senderDoc.data();
+    
+                // Fetch receiver's data (current user)
+                const receiverDocRef = doc(db, "users", user.uid);
+                const receiverDoc = await getDoc(receiverDocRef);
+    
+                if (!receiverDoc.exists()) {
+                    throw new Error("Receiver does not exist.");
+                }
+    
+                const receiverData = receiverDoc.data();
+    
+                // Add sender to receiver's friends list
+                const receiverFriendRef = doc(db, `users/${user.uid}/friends/${senderId}`);
+                await setDoc(receiverFriendRef, {
+                    userId: senderId,
+                    userName: senderData.userName, // Use sender's username
+                });
+    
+                // Add receiver to sender's friends list
+                const senderFriendRef = doc(db, `users/${senderId}/friends/${user.uid}`);
+                await setDoc(senderFriendRef, {
+                    userId: user.uid,
+                    userName: receiverData.userName || "Anonymous", // Use receiver's username or fallback
+                });
             }
+    
+            // Remove the friend request
             await deleteDoc(requestRef);
             setRequests(requests.filter((req) => req.id !== requestId));
         } catch (err) {
-            console.error(err);
+            console.error("Error handling friend request:", err);
         }
     };
 
@@ -44,7 +76,7 @@ export default function FriendRequestsPage() {
         ) : requests.length > 0 ? (
             <ul className={styles.list}>
                 {requests.map((req) => (
-                    <li key={req.id} className={styles.list-item}>
+                    <li key={req.id} className={styles.listItem}>
                         {req.senderName}
                         <div>
                             <button
