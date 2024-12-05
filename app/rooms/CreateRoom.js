@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../config/firebase";
 
 const CreateRoom = () => {
     const [roomName, setName] = useState("");

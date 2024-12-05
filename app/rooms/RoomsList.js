@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../config/firebase";
 
 const RoomsList = () => {
     const [rooms, setRooms] = useState([]);
