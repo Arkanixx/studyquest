@@ -33,11 +33,12 @@ export default function Home() {
 
       {/* Navbar */}
       <nav style={styles.nav}>
-        <Link href="/" style={styles.navLink}>Auth</Link>
-        <Link href="/" style={styles.navLink}>Friends</Link>
-        <Link href="/" style={styles.navLink}>Friend Requests</Link>
-        <Link href="/" style={styles.navLink}>Posts</Link>
-        <Link href="/" style={styles.navLink}>Add Friends</Link>
+
+        <Link href="/auth" style={styles.navLink}>Auth</Link>
+        <Link href="/friends" style={styles.navLink}>Friends</Link>
+        <Link href="/friends/requests" style={styles.navLink}>Friend Requests</Link>
+        <Link href="/posts" style={styles.navLink}>Posts</Link>
+        <Link href="/friends/search" style={styles.navLink}>Add Friends</Link>
         <Link href="/" style={styles.navLink}>Rooms</Link>
         <Link href="/DailyPlanner" style={styles.navLink}>Task Manager</Link>
         <Link href="/profile" style={styles.navLink}>Profile</Link>

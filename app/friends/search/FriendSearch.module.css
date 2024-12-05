@@ -1,0 +1,90 @@
+/* Container for the search section */
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #301f1fa2;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Header */
+.header {
+    font-size: 1.5em;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Input field */
+.input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Button styling */
+.button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* Message display */
+.message {
+    color: #888;
+    font-size: 1.1em;
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Search results container */
+.results {
+    margin-top: 20px;
+}
+
+.results h4 {
+    font-size: 1.3em;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+/* Result item styling */
+.resultItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #629ee2a8;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Add friend button */
+.addFriendButton {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.addFriendButton:hover {
+    background-color: #218838;
+}
