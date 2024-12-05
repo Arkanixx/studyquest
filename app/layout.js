@@ -6,15 +6,11 @@ export default function RootLayout({ children }) {
         <html lang="en">
             <body>
             <nav style={styles.nav}>
-                <a href ="/" style={styles.navLink}>Home</a>
                 <a href="/auth" style={styles.navLink}>Auth</a>
                 <a href="/friends" style={styles.navLink}>Friends</a>
                 <a href="/friends/requests" style={styles.navLink}>Friend Requests</a>
                 <a href="/posts" style={styles.navLink}>Posts</a>
                 <a href="/friends/search" style={styles.navLink}>Add Friends</a>
-                <a href="/" style={styles.navLink}>Rooms</a>
-                <a href="/" style={styles.navLink}>Task Manager</a>
-                <a href="/" style={styles.navLink}>Profile</a>
             </nav>
                 <UserProvider>
                     <div

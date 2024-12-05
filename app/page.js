@@ -38,10 +38,6 @@ export default function Home() {
         <Link href="/friends/requests" style={styles.navLink}>Friend Requests</Link>
         <Link href="/posts" style={styles.navLink}>Posts</Link>
         <Link href="/friends/search" style={styles.navLink}>Add Friends</Link>
-        <Link href="/" style={styles.navLink}>Rooms</Link>
-        <Link href="/" style={styles.navLink}>Task Manager</Link>
-        <Link href="/profile" style={styles.navLink}>Profile</Link>
-        
 
       </nav>
 
