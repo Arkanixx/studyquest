@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./tasks.css";
-import { db } from "../../app/DailyPlanner/firebase";
+import { db } from "../../app/config/firebase";
 import { addDoc, updateDoc, doc, collection } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
   const [title, setTitle] = useState(currentTask?.title || "");
@@ -15,10 +16,17 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
   const [priority, setPriority] = useState(currentTask?.priority || "Medium");
   const [status, setStatus] = useState(currentTask?.status || "In Progress");
   const [loading, setLoading] = useState(false);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const handleSave = async () => {
     if (!title || !description || !deadline) {
       alert("Please fill in all required fields.");
+      return;
+    }
+
+    if (!user) {
+      console.error("User not logged in");
       return;
     }
   

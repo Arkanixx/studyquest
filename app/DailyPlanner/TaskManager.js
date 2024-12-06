@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from "react";
 import './tasks.css';
 import TaskModal from "./TaskModal";
-import { db } from "../../app/DailyPlanner/firebase";
+import { db } from "../../app/config/firebase";
 import { collection, getDocs, updateDoc, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
 
 const TaskManager = () => {
