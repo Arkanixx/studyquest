@@ -3,6 +3,7 @@ import {Box, Modal, Typography, Stack, TextField, Button} from '@mui/material';
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 
+
 export default function Home() {
   const [isChatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -122,12 +123,12 @@ export default function Home() {
 
       {/* Navbar */}
       <nav style={styles.nav}>
-        <Link href="/" style={styles.navLink}>Auth</Link>
-        <Link href="/" style={styles.navLink}>Friends</Link>
-        <Link href="/" style={styles.navLink}>Friend Requests</Link>
-        <Link href="/" style={styles.navLink}>Posts</Link>
-        <Link href="/" style={styles.navLink}>Add Friends</Link>
-        <Link href="/" style={styles.navLink}>Rooms</Link>
+        <Link href="/auth" style={styles.navLink}>Auth</Link>
+        <Link href="/friends" style={styles.navLink}>Friends</Link>
+        <Link href="/friends/requests" style={styles.navLink}>Friend Requests</Link>
+        <Link href="/posts" style={styles.navLink}>Posts</Link>
+        <Link href="/friends/search" style={styles.navLink}>Add Friends</Link>
+        <Link href="/rooms" style={styles.navLink}>Rooms</Link>
         <Link href="/" style={styles.navLink}>Task Manager</Link>
         <Link href="/profile" style={styles.navLink}>Profile</Link>
       </nav>
@@ -137,7 +138,7 @@ export default function Home() {
         <div style={styles.heroContent}>
           <h2 style={styles.heroText}>Embark on Your Learning Journey</h2>
           <p style={styles.heroSubText}>Unlock endless knowledge, forge your path, and conquer new academic realms.</p>
-          <Link href="/courses" style={styles.ctaButton}>Start Quest</Link>
+          <Link href="/auth" style={styles.ctaButton}>Start Quest</Link>
         </div>
       </section>
 
@@ -243,7 +244,7 @@ export default function Home() {
       {/* CTA Section */}
       <section style={styles.ctaSection}>
         <h2 style={styles.ctaTitle}>Ready to Begin Your Quest?</h2>
-        <Link href="/signup" style={styles.ctaButton}>Join the Quest</Link>
+        <Link href="/auth" style={styles.ctaButton}>Join the Quest</Link>
       </section>
 
 

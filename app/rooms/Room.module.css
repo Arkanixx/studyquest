@@ -1,0 +1,119 @@
+/* Main container for the page */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Page header styling */
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .header h2 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .header p {
+    font-size: 1.2rem;
+    color: #ddd;
+  }
+  
+  /* Styling for the list of rooms */
+  .roomList {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .roomItem {
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent */
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .roomItem:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Room details */
+  .roomItem h3 {
+    font-size: 2rem;
+    margin: 0;
+    color: #f0dd0e;
+  }
+  
+  .roomItem p {
+    font-size: 1.5rem;
+    margin: 5px 0 10px;
+    color: #000000;
+  }
+  
+  .roomsButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    margin: 5px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .roomsButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .message-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .message {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .message:last-child {
+    border-bottom: none;
+  }
+  
+  .message strong {
+    color: #0070f3;
+    margin-right: 8px;
+  }
+  
+  .boxInput {
+    display: flex;
+    gap: 5px;
+    margin: 5px;
+  }
+  
+  .boxInput input {
+    flex: 1;
+    padding: 1px;
+    border: 1px solid #000000;
+    border-radius: 2px;
+  }
+  
