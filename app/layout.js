@@ -1,29 +1,151 @@
+"use client";
 import './globals.css';
 import { UserProvider } from "./context/userContext";
+import { useState, useEffect, useRef } from "react";
 
 export default function RootLayout({ children }) {
+    const [isChatOpen, setChatOpen] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [userInput, setUserInput] = useState("");
+    const chatEndRef = useRef(null);
+
+    const scrollToBottom = () => {
+        if (chatEndRef.current) {
+            chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    const sendMessage = async (chatMessages) => {
+        try {
+            const response = await fetch("/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ messages: chatMessages }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch AI response");
+            }
+
+            const data = await response.json();
+            return data.reply;
+        } catch (error) {
+            console.error("Error in sendMessage:", error);
+            throw error;
+        }
+    };
+
+    const toggleChat = () => {
+        if (!isChatOpen && messages.length === 0) {
+            setMessages([{ role: "bot", content: "Hi there! How can I help you today?" }]);
+        }
+        setChatOpen(!isChatOpen);
+        setTimeout(() => {
+            if (!isChatOpen && chatEndRef.current) {
+                chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+            }
+        }, 0);
+    };
+
+    const handleSendMessage = async () => {
+        if (!userInput.trim()) return;
+
+        const userMessage = { role: "user", content: userInput.trim() };
+        setMessages((prev) => [...prev, userMessage]);
+        setUserInput("");
+
+        try {
+            const botResponse = await sendMessage([...messages, userMessage]);
+            setMessages((prev) => [...prev, { role: "bot", content: botResponse }]);
+        } catch (error) {
+            setMessages((prev) => [
+                ...prev,
+                { role: "bot", content: "Error connecting to AI. Please try again later." },
+            ]);
+        }
+    };
+
     return (
         <html lang="en">
             <body>
-            {/* <nav style={styles.nav}>
-                <a href="/auth" style={styles.navLink}>Auth</a>
-                <a href="/friends" style={styles.navLink}>Friends</a>
-                <a href="/friends/requests" style={styles.navLink}>Friend Requests</a>
-                <a href="/posts" style={styles.navLink}>Posts</a>
-                <a href="/friends/search" style={styles.navLink}>Add Friends</a>
-            </nav> */}
                 <UserProvider>
                     <div
                         style={{
-                            backgroundImage: "url('/rpg-background.gif')", // Corrected path
+                            backgroundImage: "url('/rpg-background.gif')",
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             backgroundRepeat: "no-repeat",
-                            minHeight: "100vh", // Ensures full viewport height
-                            width: "100%", // Ensures it spans full width
+                            minHeight: "100vh",
+                            width: "100%",
                         }}
                     >
-                        {children} {/* Ensure content is inside the background */}
+                        {children} {/* Render page-specific content here */}
+
+                        {/* Chatbot UI */}
+                        <div style={styles.chatbot}>
+                            <div style={styles.chatIcon} onClick={toggleChat}>
+                                💬
+                            </div>
+                            {isChatOpen && (
+                                <div style={styles.chatWindow}>
+                                    <div style={styles.chatHeader}>
+                                        <span>Speak with the Quest Master</span>
+                                        <button style={styles.closeButton} onClick={toggleChat}>
+                                            ✖️
+                                        </button>
+                                    </div>
+                                    <div style={styles.chatMessages}>
+                                        {messages.map((msg, index) => (
+                                            <div
+                                                key={index}
+                                                style={{
+                                                    ...styles.chatMessage,
+                                                    ...(msg.role === "user"
+                                                        ? styles.userMessage
+                                                        : styles.botMessage),
+                                                }}
+                                            >
+                                                {msg.role === "bot"
+                                                    ? msg.content
+                                                          .split("\n")
+                                                          .map((line, i) => (
+                                                              <p key={i} style={{ margin: 0 }}>
+                                                                  {line}
+                                                              </p>
+                                                          ))
+                                                    : msg.content}
+                                            </div>
+                                        ))}
+                                        <div ref={chatEndRef}></div>
+                                    </div>
+                                    <div style={styles.chatInput}>
+                                        <input
+                                            type="text"
+                                            placeholder="Type a message..."
+                                            value={userInput}
+                                            onChange={(e) => setUserInput(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter") {
+                                                    e.preventDefault();
+                                                    handleSendMessage();
+                                                }
+                                            }}
+                                            style={styles.inputBox}
+                                        />
+                                        <button
+                                            onClick={handleSendMessage}
+                                            style={styles.sendButton}
+                                        >
+                                            Send
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </UserProvider>
             </body>
@@ -32,19 +154,129 @@ export default function RootLayout({ children }) {
 }
 
 const styles = {
-    nav: {
-        backgroundColor: '#3a3f60', // Darker blue background for nav
-        padding: '20px',
+    chatbot: {
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
+        zIndex: 1000,
+      },
+      chatIcon: {
+        width: "60px",
+        height: "60px",
+        backgroundColor: "#007bff",
+        color: "white",
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      },
+      chatWindow: {
+        width: '90%',
+        maxWidth: '400px',
+        height: '70%',
+        maxHeight: '600px',
+        backgroundColor: '#ffffff',
+        backgroundSize: 'cover', // Ensures the image covers the entire chat window
+        backgroundRepeat: 'no-repeat', // Avoids repeating the image
+        backgroundPosition: 'center', // Centers the image
+        borderRadius: '10px',
+        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        position: 'fixed',
+        bottom: '10px',
+        right: '10px',
+      },
+      chatHeader: {
+        backgroundColor: '#007bff',
+        color: 'white',
+        padding: '10px',
+        fontSize: '1rem',
         textAlign: 'center',
-        borderBottom: '2px solid #88aadd',
+        position: 'relative', // Required for absolute positioning of the button
+        borderTopLeftRadius: '15px',
+        borderTopRightRadius: '15px',
       },
-      navLink: {
-        color: '#fff',
-        padding: '14px 20px',
-        margin: '0 10px',
-        fontSize: '1.1rem',
-        textDecoration: 'none',
-        transition: 'color 0.3s ease, transform 0.3s ease',
-        fontFamily: 'serif',
+      chatMessages: {
+        flex: 1,
+        padding: '10px',
+        boxSizing: 'border-box',
+        overflowY: 'auto', // Enables scrolling for long messages
+        backgroundImage: 'url("/images/pixelated-background.png")', // Apply background to messages only
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
-}
+      chatMessage: {
+        margin: '10px 0',
+        padding: '10px 15px',
+        borderRadius: '20px', // Rounded corners
+        maxWidth: '70%', // Prevent bubbles from stretching too wide
+        width: 'fit-content',
+        wordBreak: 'break-word', // Break long words
+        fontSize: '0.95rem',
+        lineHeight: '1.4',
+      },
+      userMessage: {
+        backgroundColor: '#007bff', // Blue background for user messages
+        color: 'white', // White text
+        alignSelf: 'flex-end', // Align to the right
+        borderBottomRightRadius: '0',
+        margin: '0 0 5px auto',
+      },
+      botMessage: {
+        backgroundColor: '#f1f1f1', // Light gray background for bot messages
+        color: '#333', // Dark text
+        alignSelf: 'flex-start', // Align to the left
+        borderBottomLeftRadius: '0',
+      },
+      chatInput: {
+        display: 'flex',
+        padding: '10px',
+        borderTop: '1px solid #ddd',
+      },
+      chatInputContainer: {
+        display: 'flex',
+        gap: '10px', // Adds space between input and button
+        padding: '10px',
+        backgroundColor: '#ffffff', // Solid white background for input area
+        borderTop: '1px solid #ddd',
+      },
+      inputBox: {
+        flex: 1,
+        padding: '10px',
+        borderRadius: '5px',
+        border: '1px solid #ddd',
+        fontSize: '1rem',
+      },
+      sendButton: {
+        backgroundColor: '#007bff',
+        color: 'white',
+        padding: '10px',
+        marginLeft: '5px',
+        borderRadius: '5px',
+        border: 'none',
+        fontSize: '1rem',
+        cursor: 'pointer',
+      },
+      closeButton: {
+        backgroundColor: '#ff4d4f', // Red background
+        color: 'white', // White text
+        border: 'none',
+        borderRadius: '50%', // Circle shape
+        width: '25px',
+        height: '25px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        position: 'absolute', // Position it within the header
+        top: '8px',
+        right: '10px', // Place it at the top-right
+        fontSize: '14px',
+      },    
+};
