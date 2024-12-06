@@ -2,6 +2,7 @@ import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { serverTimestamp } from "firebase/firestore";
 import { db } from "../config/firebase";
+import styles from "./Room.module.css"
 
 const CreateRoom = () => {
     const [roomName, setName] = useState("");
@@ -34,28 +35,30 @@ const CreateRoom = () => {
     return (
         
         <form onSubmit={handleSubmit}>
-            <h2>Create a Room</h2>
-            <div style={{padding: "5px"}}>
+            <header className="styles.header">
+                <h2>Create a Room</h2>
+            </header>
+            
                 <label>Room Name:</label>
-                <input
-                    type="text"
-                    value={roomName}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter room name"
-                />
-            </div>
-            <div style={{padding: "5px"}}>
+                <div className={styles.boxInput}>
+                    <input
+                        type="text"
+                        value={roomName}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Enter room name"
+                    />
+                </div>
                 <label>Room Topic:</label>
-                <input
-                    type="text"
-                    value={roomTopic}
-                    onChange={(e) => setTopic(e.target.value)}
-                    placeholder="Enter room topic"
-                />
-            </div>
-            <div style={{padding: "5px 5px 5px 20px"}}>
-                <button type="submit">Create Room</button>
-            </div> 
+                <div className={styles.boxInput}>
+                    <input
+                        type="text"
+                        value={roomTopic}
+                        onChange={(e) => setTopic(e.target.value)}
+                        placeholder="Enter room topic"
+                    />
+                </div>
+
+                <button className={styles.roomsButton} type="submit">Create Room</button>
         </form>
     );
 };
