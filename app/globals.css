@@ -121,9 +121,55 @@ nav a.active {
   }
 }
 
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(37, 126, 167, 0.74); /* Semi-transparent black */
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(8, 29, 37, 0.2); /* Subtle shadow */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensures nav stays on top */
+}
+
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif ;
+  margin: 0 15px; /* Spacing between links */
+  padding: 5px 10px; /* Adds clickable padding */
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Light hover effect */
+  transform: scale(1.05); /* Subtle zoom effect */
+}
+
+
+nav a.active {
+  background-color: #007bff; /* Highlight active link */
+  color: white;
+}
+
+@media (max-width: 768px) {
+  nav {
+      flex-direction: column; /* Stack links vertically on smaller screens */
+      padding: 20px;
+  }
+
+  nav a {
+      margin: 10px 0; /* Adjust spacing for stacked layout */
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
 }
-
