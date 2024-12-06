@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import {Box, Modal, Typography, Stack, TextField, Button} from '@mui/material';
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";

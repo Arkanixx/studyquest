@@ -24,7 +24,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
       alert("Please fill in all required fields.");
       return;
     }
-
+  
     if (!user) {
       console.error("User not logged in");
       return;
@@ -45,12 +45,9 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
       title,
       description,
       deadline: formattedDeadline,
+      userId: user.uid,
       priority,
     };
-  
-    if (currentTask) {
-      taskData.status = status; // Include status when editing
-    }
   
     try {
       setLoading(true);
@@ -67,6 +64,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
   
       fetchTasks(); // Fetch the updated list of tasks
       onClose(); // Close the modal
+  
     } catch (error) {
       console.error("Error saving task:", error);
       alert("An error occurred while saving the task. Please try again.");
@@ -74,6 +72,7 @@ const TaskModal = ({ currentTask, onClose, fetchTasks }) => {
       setLoading(false);
     }
   };
+  
   
 
   return (

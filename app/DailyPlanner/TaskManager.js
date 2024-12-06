@@ -4,8 +4,9 @@
 import React, { useState, useEffect } from "react";
 import './tasks.css';
 import TaskModal from "./TaskModal";
+import { getAuth } from "firebase/auth";
 import { db } from "../../app/config/firebase";
-import { collection, getDocs, updateDoc, deleteDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, getDocs, updateDoc, deleteDoc, doc, getDoc, setDoc, query, where, } from "firebase/firestore";
 
 const TaskManager = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,9 +18,31 @@ const TaskManager = () => {
   const tasksCollectionRef = collection(db, "tasks");
 
   const fetchTasks = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
     const data = await getDocs(tasksCollectionRef);
     const tasks = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     setTasks(tasks);
+
+    if (!user) {
+      console.error("User not logged in");
+      return; // Exit if no user is logged in
+    }
+
+    try {
+      const tasksCollection = collection(db, "tasks");
+      const q = query(tasksCollection, where("userId", "==", user.uid)); // Filter tasks by userId
+      const querySnapshot = await getDocs(q);
+  
+      const tasks = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+  
+      setTasks(tasks); // Update the state with the filtered tasks
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
 
     // Calculate completed tasks
     const completed = tasks.filter(task => task.status === "Completed").length;
@@ -66,12 +89,14 @@ const TaskManager = () => {
     await updateDoc(taskDoc, { status: "Completed" });
 
     // Update user points
-    const userDoc = doc(db, "users", "user-id"); // Replace with actual user ID
+    const userDoc = doc(db, "users", task.userId); 
     const userSnapshot = await getDoc(userDoc);
 
     if (!userSnapshot.exists()) {
-      // Create user document if it doesn't exist
-      await setDoc(userDoc, { totalPoints: 0 });
+      await setDoc(userDoc, { totalPoints: points }); // Initialize points
+    } else {
+      const currentPoints = userSnapshot.data().totalPoints || 0;
+      await updateDoc(userDoc, { totalPoints: currentPoints + points });
     }
 
     const currentPoints = userSnapshot.data()?.totalPoints || 0;
