@@ -20,15 +20,13 @@ const TaskManager = () => {
   const fetchTasks = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
-    const data = await getDocs(tasksCollectionRef);
-    const tasks = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
-    setTasks(tasks);
-
+  
     if (!user) {
       console.error("User not logged in");
+      setTasks([]); // Clear tasks if no user is logged in
       return; // Exit if no user is logged in
     }
-
+  
     try {
       const tasksCollection = collection(db, "tasks");
       const q = query(tasksCollection, where("userId", "==", user.uid)); // Filter tasks by userId
@@ -43,11 +41,11 @@ const TaskManager = () => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-
+  
     // Calculate completed tasks
     const completed = tasks.filter(task => task.status === "Completed").length;
     setCompletedTasks(completed);
-  };
+  };  
 
   const fetchUserPoints = async () => {
     const userDoc = doc(db, "users", "user-id"); // Replace "user-id" with actual user ID logic
@@ -62,8 +60,19 @@ const TaskManager = () => {
   };
 
   useEffect(() => {
-    fetchTasks();
-    fetchUserPoints();
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        fetchTasks(); // Fetch tasks if user is logged in
+        fetchUserPoints(); // Fetch user points if user is logged in
+      } else {
+        setTasks([]); // Clear tasks if no user is logged in
+        setTotalPoints(0); // Reset points
+      }
+    });
+  
+    // Cleanup on unmount
+    return () => unsubscribe();
   }, []);
 
   const handleAddTask = () => {
@@ -121,7 +130,7 @@ const TaskManager = () => {
     <div className="task-manager-container">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-glow text-4xl font-extrabold tracking-wide">
+        <h1 className="text-glow text-4xl font-extrabold tracking-wide" >
           Task Manager
         </h1>
         <div className="bg-gray-800 text-yellow-400 px-4 py-2 rounded-lg shadow-md">

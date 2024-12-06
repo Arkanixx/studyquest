@@ -120,7 +120,7 @@ textarea.input-field {
 
 
   /* Button Styles */
-button {
+.task-manager-container button {
     background: rgba(0, 0, 0, 0.7); /* Dark transparent background for buttons */
     color: #fff; /* White text for contrast */
     border: 2px solid rgba(0, 122, 255, 0.7); /* Blue border with slight transparency */

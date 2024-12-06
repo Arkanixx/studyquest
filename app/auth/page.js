@@ -62,7 +62,6 @@ export default function AuthPage() {
         try {
             await signOut(auth);
             alert("Signed out!");
-            setTasks([]);
         } catch (err) {
             console.error(err);
         }
