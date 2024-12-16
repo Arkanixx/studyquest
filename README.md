@@ -43,15 +43,22 @@ npm run dev
 5. Open http://localhost:3000 with your browser to see the app in action.
 
 ### Project Structure
-- Frontend: Built with Next.js, leveraging its optimized routing and server-side rendering features.
+- Frontend: HTML5, CSS
+- Backend: Built with Next.js, leveraging its optimized routing and server-side rendering features.
+- Database: Firebase Firestore and Authentication
 - Font: Uses next/font to optimize and load the Geist font family by Vercel.
 - AI Integration: Powered by the Groq API for AI-enhanced features.
-You can start editing the app by modifying app/page.js. The application will auto-update as you make changes.
+- Development Tools: Visual Studio Code, GitHub 
 
 ### Learn More
-- Next.js Documentation - Learn about Next.js features and APIs.
-- Learn Next.js - An interactive Next.js tutorial.
-- Next.js GitHub Repository - Contribute and provide feedback.
+#### Next.js Resources
+- Next.js Documentation - https://nextjs.org/docs
+#### React Resources
+- React Documentation - https://react.dev/
+#### Firebase Resources
+- Firebase Documentation - https://firebase.google.com/docs
+- Firebase Web Setup - https://firebase.google.com/docs/web/setup
+- React + Firebase Guide - https://firebase.google.com/docs/web/setup#using_firebase_with_a_framework
 
 ### Deployment
 The easiest way to deploy your Next.js app is by using the Vercel Platform, created by the developers of Next.js.
